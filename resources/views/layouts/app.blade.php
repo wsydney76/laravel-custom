@@ -1,25 +1,18 @@
 @props([
-    'title' => 'Laravel Demos',
-    'heading' => null,
+    'title' => config('app.name'),
+    'titleactions' => null,
 ])
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scrollbar-gutter-stable">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-        @if ($title)
-            <title>{{ $title }} | {{ config('app.name') }}</title>
-        @endif
+
+        <title>{{ $title }} | {{ config('app.name') }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @fluxAppearance
-
-        <style>
-            html {
-                scrollbar-gutter: stable;
-            }
-        </style>
     </head>
     <body class="bg-bg antialiased dark:bg-zinc-900">
         <flux:header
@@ -48,12 +41,16 @@
             <x-layouts.sidebar-nav class="flex flex-col" />
         </flux:sidebar>
 
-        <flux:main container>
+        <flux:main class="lg:mx-auto lg:w-5xl">
             <x-layouts.status-callout />
 
             <div class="flex items-center justify-between">
-                <flux:heading size="xl" class="my-6">{{ $heading ?? $title }}</flux:heading>
-                <div id="titleslot"></div>
+                <flux:heading size="xl" class="my-6">{{ $title }}</flux:heading>
+                @if ($titleactions && $titleactions->hasActualContent())
+                    <div>
+                        {{ $titleactions }}
+                    </div>
+                @endif
             </div>
 
             {{ $slot }}

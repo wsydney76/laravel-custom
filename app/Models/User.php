@@ -47,6 +47,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the user's initials
      */
+    public function articles(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
+
     public function initials(): string
     {
         $initials = Str::initials($this->name, true);
