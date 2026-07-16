@@ -9,7 +9,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-new #[Title('Articles Search')] class extends Component {
+new class extends Component {
     use WithPagination;
 
     #[Url]
@@ -26,6 +26,11 @@ new #[Title('Articles Search')] class extends Component {
             ->where('title', 'like', "%{$this->search}%")
             ->orWhere('body', 'like', "%{$this->search}%")
             ->paginate(8);
+    }
+
+    public function render()
+    {
+        return $this->view()->title(__('Search Articles'));
     }
 };
 ?>

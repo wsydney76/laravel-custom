@@ -1,3 +1,3 @@
 <flux:navbar.item :current="request()->routeIs('articles.*')" href="{{ route('articles.index') }}">
-    Articles
+    {{ __('Articles') }}
 </flux:navbar.item>

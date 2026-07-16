@@ -22,6 +22,11 @@ class Article extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function getFormattedDateAttribute(): string
+    {
+        return $this->created_at->isoFormat('LL');
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('featured_image')
