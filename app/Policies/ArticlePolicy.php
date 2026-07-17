@@ -66,6 +66,6 @@ class ArticlePolicy
 
     private function isAdminOrOwner(User $user, Article $article): bool
     {
-        return $user->role === 'admin' || $user->id === $article->user_id;
+        return $user->isAdmin() || $article->user()->is($user);
     }
 }

@@ -64,4 +64,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ? Str::substr($initials, 0, 1) . Str::substr($initials, -1)
             : $initials;
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }
