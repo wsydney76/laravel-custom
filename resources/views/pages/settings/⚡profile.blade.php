@@ -1,6 +1,7 @@
 <?php
 
 use App\Concerns\ProfileValidationRules;
+use App\Enums\Locale;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ new #[Title('')] class extends Component {
 
     public string $name = '';
     public string $email = '';
+    public string $locale = '';
 
     /**
      * Mount the component.
@@ -23,6 +25,7 @@ new #[Title('')] class extends Component {
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->locale = Auth::user()->locale->value;
     }
 
     /**
@@ -127,6 +130,18 @@ new #[Title('')] class extends Component {
                     </div>
                 @endif
             </div>
+
+            <flux:select
+                wire:model="locale"
+                :label="__('Language')"
+                :description:trailing="__('This setting will take effect when opening another page.')"
+            >
+                @foreach (\App\Enums\Locale::cases() as $loc)
+                    <flux:select.option value="{{ $loc->value }}">
+                        {{ $loc->label() }}
+                    </flux:select.option>
+                @endforeach
+            </flux:select>
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">

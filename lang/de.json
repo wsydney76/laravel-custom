@@ -121,6 +121,10 @@
     "Your email address is unverified.": "Ihre E-Mail-Adresse ist nicht bestätigt.",
     "Click here to re-send the verification email.": "Klicken Sie hier, um die Bestätigungs-E-Mail erneut zu senden.",
     "A new verification link has been sent to your email address.": "Ein neuer Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.",
+    "English": "Englisch",
+    "German": "Deutsch",
+    "Language": "Sprache",
+    "This setting will take effect when opening another page.": "Diese Einstellung wird wirksam, wenn Sie eine andere Seite öffnen.",
 
     "Delete account": "Konto löschen",
     "Delete your account and all of its resources": "Löschen Sie Ihr Konto und alle zugehörigen Ressourcen",

@@ -2,6 +2,7 @@
 
 namespace App\Concerns;
 
+use App\Enums\Locale;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 
@@ -17,6 +18,7 @@ trait ProfileValidationRules
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($userId),
+            'locale' => $this->localeRules(),
         ];
     }
 
@@ -46,5 +48,15 @@ trait ProfileValidationRules
                 ? Rule::unique(User::class)
                 : Rule::unique(User::class)->ignore($userId),
         ];
+    }
+
+    /**
+     * Get the validation rules used to validate user locale.
+     *
+     * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     */
+    protected function localeRules(): array
+    {
+        return ['required', Rule::enum(Locale::class)];
     }
 }
