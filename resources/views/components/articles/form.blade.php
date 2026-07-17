@@ -89,3 +89,5 @@
         </flux:button>
     </div>
 </form>
+
+<x-scripts.beforeunload />
