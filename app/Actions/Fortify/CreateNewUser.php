@@ -3,7 +3,9 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Notifications\NewUserRegistered;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -31,10 +33,15 @@ class CreateNewUser implements CreatesNewUsers
             'You have full access as soon as you click the confirmation link in your confirmation email.',
         );
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $admins = User::where('role', 'admin')->get();
+        Notification::send($admins, new NewUserRegistered($user));
+
+        return $user;
     }
 }
