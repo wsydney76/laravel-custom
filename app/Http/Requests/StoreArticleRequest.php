@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\State;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,6 +20,7 @@ class StoreArticleRequest extends FormRequest
             'slug'           => ['nullable', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', Rule::unique('articles', 'slug')],
             'body'           => ['required', 'string'],
             'featured_image' => ['nullable', 'image', 'max:4096'],
+            'state'          => ['nullable', Rule::enum(State::class)],
         ];
     }
 }

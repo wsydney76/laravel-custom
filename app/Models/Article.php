@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\State;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,16 +17,28 @@ class Article extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    protected $fillable = ['user_id', 'title', 'slug', 'body'];
+    protected $fillable = ['user_id', 'title', 'slug', 'body', 'state'];
 
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
+    protected function casts(): array
+    {
+        return [
+            'state' => State::class,
+        ];
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('state', State::Published);
     }
 
     public function getFormattedDateAttribute(): string
@@ -35,6 +49,11 @@ class Article extends Model implements HasMedia
     public function getFormattedDateTimeAttribute(): string
     {
         return $this->created_at->timezone(config('app.app_timezone'))->isoFormat('LLL');
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->state === State::Published;
     }
 
     public function registerMediaCollections(): void

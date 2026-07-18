@@ -1,4 +1,15 @@
 <x-layouts::app :title="$article->title">
+    @unless ($article->isPublished())
+        <flux:callout class="mb-6" variant="danger" icon="exclamation-triangle">
+            <flux:callout.heading>
+                {{ __('This article is not published') }}
+            </flux:callout.heading>
+            <flux:callout.text>
+                {{ __('Currently in the :state state.', ['state' => $article->state->label()]) }}
+            </flux:callout.text>
+        </flux:callout>
+    @endunless
+
     <div class="space-y-6">
         @if ($article->hasMedia('featured_image'))
             <img

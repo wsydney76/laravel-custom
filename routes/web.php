@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,11 @@ Route::get('articles/{article}', [ArticleController::class, 'show'])->name('arti
 
 Route::get('test/{template}', function (string $template) {
     return view("test.{$template}", ['template' => $template]);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::livewire('dashboard/articles', 'pages::dashboard.articles')->name('dashboard.articles');
+    Route::get('dashboard/users', [AdminController::class, 'users'])->name('dashboard.users');
 });
 
 require_once __DIR__ . '/settings.php';

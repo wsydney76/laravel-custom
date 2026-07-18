@@ -1,3 +1,5 @@
+@use('App\Enums\State')
+
 @props([
     'action',
     'method' => 'POST',
@@ -22,15 +24,35 @@
         />
     </div>
 
-    <div class="mb-6">
-        <flux:input
-            :label="__('Slug')"
-            name="slug"
-            id="article-slug"
-            value="{{ old('slug', $article?->slug) }}"
-            :placeholder="__('a valid slug (optional)')"
-            :description:trailing="__('If left empty, a slug will be automatically generated from the title.')"
-        />
+    <div class="mb-6 grid grid-cols-2 gap-6">
+        <div>
+            <flux:input
+                :label="__('Slug')"
+                name="slug"
+                id="article-slug"
+                value="{{ old('slug', $article?->slug) }}"
+                :placeholder="__('a valid slug (optional)')"
+                :description:trailing="__('If left empty, a slug will be automatically generated from the title.')"
+            />
+        </div>
+
+        <div>
+            <flux:select
+                :label="__('State')"
+                name="state"
+                id="article-state"
+                value="{{ old('state', $article?->state?->value) }}"
+            >
+                @foreach (State::cases() as $state)
+                    <flux:select.option
+                        value="{{ $state->value }}"
+                        :selected="old('state', $article?->state?->value) === $state->value"
+                    >
+                        {{ $state->label() }}
+                    </flux:select.option>
+                @endforeach
+            </flux:select>
+        </div>
     </div>
 
     <div class="mb-6">

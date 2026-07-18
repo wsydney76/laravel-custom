@@ -24,6 +24,10 @@ class ArticlePolicy
         return true;
     }
 
+    public function viewUnpublished(User $user, Article $article): bool {
+        return $this->isAdminOrOwner($user, $article);
+    }
+
     /**
      * Determine whether the user can create models.
      */
@@ -62,6 +66,11 @@ class ArticlePolicy
     public function forceDelete(User $user, Article $article): bool
     {
         return $this->isAdminOrOwner($user, $article);
+    }
+
+    public function administer(User $user): bool
+    {
+        return $user->isAdmin();
     }
 
     private function isAdminOrOwner(User $user, Article $article): bool

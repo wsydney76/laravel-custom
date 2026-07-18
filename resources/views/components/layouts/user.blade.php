@@ -1,13 +1,27 @@
+@php
+    use App\Models\Article;
+@endphp
+
 @if (Route::has('login'))
     @auth
         <flux:dropdown>
             <flux:button variant="subtle" icon="user" aria-label="Preferred color scheme">
-                {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                {{ auth()->user()->name }}
             </flux:button>
             <flux:menu>
                 <flux:menu.item :href="route('profile.edit')" icon="cog-8-tooth" wire:navigate>
                     {{ __('Settings') }}
                 </flux:menu.item>
+
+                @can('administer', Article::class)
+                    <flux:menu.item
+                        :href="route('dashboard.articles')"
+                        icon="shield-check"
+                        wire:navigate
+                    >
+                        {{ __('Admin Dashboard') }}
+                    </flux:menu.item>
+                @endcan
 
                 <flux:menu.separator />
 
@@ -25,6 +39,9 @@
                 </form>
             </flux:menu>
         </flux:dropdown>
+        @if (auth()->user()->isAdmin())
+            <flux:badge color="emerald">Admin</flux:badge>
+        @endif
     @else
         <flux:navbar.item :href="route('login')" icon="arrow-right-end-on-rectangle" wire:navigate>
             {{ __('Log in') }}
