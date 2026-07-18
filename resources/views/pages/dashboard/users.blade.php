@@ -3,6 +3,7 @@
 use App\Enums\Locale;
 use App\Models\Article;
 use App\Models\User;
+use App\Services\ArticleService;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -12,6 +13,13 @@ use Flux\Flux;
 
 new #[Title('Dashboard - Users')] class extends Component {
     use WithPagination;
+
+    public function boot(ArticleService $articleService): void
+    {
+        $this->articleService = $articleService;
+    }
+
+    protected ArticleService $articleService;
 
     #[Url(as: 'role')]
     public string $filterRole = '';
@@ -152,13 +160,7 @@ new #[Title('Dashboard - Users')] class extends Component {
         $this->authorize('administer', Article::class);
 
         $currentOwner = User::findOrFail($this->currentOwnerUserId);
-
-        $articles = $currentOwner->articles;
-
-        foreach ($articles as $article) {
-            $article->user_id = (int) $this->changeOwnerUserId;
-            $article->save();
-        }
+        $this->articleService->reassignArticles($currentOwner, (int) $this->changeOwnerUserId);
 
         $this->modal('change-owner')->close();
         $this->currentOwnerUserId = null;

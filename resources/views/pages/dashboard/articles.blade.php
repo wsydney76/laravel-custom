@@ -3,6 +3,7 @@
 use App\Enums\State;
 use App\Models\Article;
 use App\Models\User;
+use App\Services\ArticleService;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -12,6 +13,13 @@ use Flux\Flux;
 
 new #[Title('Dashboard - Articles')] class extends Component {
     use WithPagination;
+
+    public function boot(ArticleService $articleService): void
+    {
+        $this->articleService = $articleService;
+    }
+
+    protected ArticleService $articleService;
 
     #[Url(as: 'user')]
     public string $filterUser = '';
@@ -74,8 +82,7 @@ new #[Title('Dashboard - Articles')] class extends Component {
     public function changeState(Article $article, $state): void
     {
         $this->authorize('update', $article);
-        $article->state = $state;
-        $article->save();
+        $this->articleService->changeState($article, $state);
 
         Flux::toast(
             __('State changed to :state', ['state' => State::from($state)->label()]),
@@ -86,7 +93,7 @@ new #[Title('Dashboard - Articles')] class extends Component {
     public function destroyArticle(Article $article)
     {
         $this->authorize('delete', $article);
-        $article->delete();
+        $this->articleService->delete($article);
 
         Flux::toast(__('Article deleted successfully'), variant: 'success');
     }
@@ -107,8 +114,7 @@ new #[Title('Dashboard - Articles')] class extends Component {
         $this->authorize('administer', Article::class);
 
         $article = Article::findOrFail($this->changeOwnerArticleId);
-        $article->user_id = (int) $this->changeOwnerUserId;
-        $article->save();
+        $this->articleService->changeOwner($article, (int) $this->changeOwnerUserId);
 
         $this->modal('change-owner')->close();
         $this->changeOwnerArticleId = null;

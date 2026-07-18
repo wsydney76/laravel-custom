@@ -266,7 +266,7 @@ return [
         'short_text' => 'Kurzer Text',
         'size' => 'Größe',
         'skills' => 'Fähigkeiten',
-        'slug' => 'Schnecke',
+        'slug' => 'Slug',
         'specialization' => 'Spezialisierung',
         'started_at' => 'fing an bei',
         'state' => 'Bundesland',
