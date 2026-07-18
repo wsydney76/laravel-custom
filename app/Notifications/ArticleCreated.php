@@ -24,7 +24,7 @@ class ArticleCreated extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -53,7 +53,11 @@ class ArticleCreated extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-                //
-            ];
+            'article_id' => $this->article->id,
+            'article_slug' => $this->article->slug,
+            'article_title' => $this->article->title,
+            'creator_id' => $this->article->user->id,
+            'creator_name' => $this->article->user->name,
+        ];
     }
 }

@@ -31,6 +31,9 @@ Route::get('test/{template}', function (string $template) {
 Route::middleware('auth')->group(function () {
     Route::livewire('dashboard/articles', 'pages::dashboard.articles')->name('dashboard.articles');
     Route::livewire('dashboard/users', 'pages::dashboard.users')->name('dashboard.users');
+    Route::livewire('dashboard/notifications', 'pages::dashboard.notifications')->name(
+        'dashboard.notifications',
+    );
 });
 
 require_once __DIR__ . '/settings.php';

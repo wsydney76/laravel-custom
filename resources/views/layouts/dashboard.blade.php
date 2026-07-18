@@ -8,6 +8,9 @@
                 <flux:navlist.item :href="route('dashboard.users')" wire:navigate>
                     {{ __('Users') }}
                 </flux:navlist.item>
+                <flux:navlist.item :href="route('dashboard.notifications')" wire:navigate>
+                    {{ __('Notifications') }}
+                </flux:navlist.item>
             @endcan
         </flux:navlist>
     </div>

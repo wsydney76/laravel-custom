@@ -24,7 +24,7 @@ class NewUserRegistered extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -57,5 +57,3 @@ class NewUserRegistered extends Notification
         ];
     }
 }
-
-

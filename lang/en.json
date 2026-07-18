@@ -107,6 +107,8 @@
     "Logout": "Logout",
     "Loop Detected": "Loop Detected",
     "Maintenance Mode": "Maintenance Mode",
+    "Manage your notifications.": "Manage your notifications.",
+    "Mark as read": "Mark as read",
     "Method Not Allowed": "Method Not Allowed",
     "Misdirected Request": "Misdirected Request",
     "Moved Permanently": "Moved Permanently",
@@ -117,8 +119,11 @@
     "Network Read Timeout Error": "Network Read Timeout Error",
     "New": "New",
     "New :name": "New :name",
+    "New article published by :name": "New article published by :name",
+    "New user registered: :email": "New user registered: :email",
     "No": "No",
     "No Content": "No Content",
+    "Notifications": "Notifications",
     "Non-Authoritative Information": "Non-Authoritative Information",
     "Not Acceptable": "Not Acceptable",
     "Not Extended": "Not Extended",
@@ -237,5 +242,6 @@
     "Web Server is Down": "Web Server is Down",
     "Whoops!": "Whoops!",
     "Yes": "Yes",
+    "You have no unread notifications.": "You have no unread notifications.",
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account."
 }
