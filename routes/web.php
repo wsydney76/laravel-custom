@@ -30,9 +30,7 @@ Route::get('test/{template}', function (string $template) {
 
 Route::middleware('auth')->group(function () {
     Route::livewire('dashboard/articles', 'pages::dashboard.articles')->name('dashboard.articles');
-    Route::get('dashboard/users', [AdminController::class, 'users'])
-        ->middleware('can:administer,App\Models\Article')
-        ->name('dashboard.users');
+    Route::livewire('dashboard/users', 'pages::dashboard.users')->name('dashboard.users');
 });
 
 require_once __DIR__ . '/settings.php';

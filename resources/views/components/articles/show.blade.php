@@ -13,7 +13,7 @@
 
     <flux:card class="space-y-4">
         <p class="text-sm text-zinc-500">
-            {{ __('By :name', ['name' => $article->creator->name]) }}
+            {{ __('By :name', ['name' => $article->creator?->name ?? $article->user->name]) }}
         </p>
         <p class="text-base text-zinc-800 dark:text-zinc-200">
             <x-nl2br :text="$article->body" />

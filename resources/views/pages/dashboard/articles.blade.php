@@ -42,7 +42,9 @@ new #[Title('Dashboard - Articles')] class extends Component {
     #[Computed]
     public function isAdmin(): bool
     {
-        return auth()->user()?->can('administer', Article::class) ?? false;
+        return auth()
+            ->user()
+            ?->can('administer', Article::class) ?? false;
     }
 
     #[Computed]
@@ -56,7 +58,10 @@ new #[Title('Dashboard - Articles')] class extends Component {
 
         return Article::query()
             ->when(! $this->isAdmin, fn ($q) => $q->where('user_id', $user->id))
-            ->when($this->isAdmin && $this->filterUser, fn ($q) => $q->where('user_id', $this->filterUser))
+            ->when(
+                $this->isAdmin && $this->filterUser,
+                fn ($q) => $q->where('user_id', $this->filterUser),
+            )
             ->when($this->filterState, fn ($q) => $q->where('state', $this->filterState))
             ->when(
                 $this->filterSearch,
@@ -269,29 +274,11 @@ new #[Title('Dashboard - Articles')] class extends Component {
             @endforeach
         </flux:table>
 
-        <flux:modal name="change-owner" class="min-w-88">
-            <flux:heading size="lg">{{ __('Change owner') }}</flux:heading>
-            <flux:subheading class="mt-1 mb-6">
-                {{ __('Select a new owner for this article.') }}
-            </flux:subheading>
-
-            <flux:select wire:model="changeOwnerUserId" :label="__('Owner')">
-                @foreach ($this->users as $user)
-                    <flux:select.option value="{{ $user->id }}">
-                        {{ $user->name }}
-                    </flux:select.option>
-                @endforeach
-            </flux:select>
-
-            <div class="mt-6 flex justify-end gap-2">
-                <flux:modal.close>
-                    <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
-                </flux:modal.close>
-                <flux:button variant="primary" wire:click="applyChangeOwner">
-                    {{ __('Apply') }}
-                </flux:button>
-            </div>
-        </flux:modal>
+        <x-dashboard.select-owner
+            :heading="__('Change owner')"
+            :subheading="__('Select a new owner for this article.')"
+            :users="$this->users"
+        />
 
         <livewire:articles.details-modal />
     </x-layouts::dashboard>
