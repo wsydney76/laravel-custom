@@ -16,23 +16,22 @@
         </flux:button>
 
         <flux:menu>
-            <flux:menu.group :heading="__('Change state to')">
-                @foreach ($states as $state)
-                    <flux:menu.item
-                        :icon="$state->icon()"
-                        wire:click="bulkChangeState('{{ $state->value }}')"
-                    >
-                        {{ $state->actionLabel() }}
-                    </flux:menu.item>
-                @endforeach
-            </flux:menu.group>
-
             @if ($isAdmin)
-                <flux:menu.separator />
                 <flux:menu.item icon="user" wire:click="openBulkChangeOwner">
                     {{ __('Change owner') }}
                 </flux:menu.item>
             @endif
+
+            <flux:menu.separator />
+
+            @foreach ($states as $state)
+                <flux:menu.item
+                    :icon="$state->icon()"
+                    wire:click="bulkChangeState('{{ $state->value }}')"
+                >
+                    {{ $state->actionLabel() }}
+                </flux:menu.item>
+            @endforeach
 
             <flux:menu.separator />
 

@@ -5,6 +5,7 @@ use App\Models\Article;
 use App\Models\User;
 use App\Services\ArticleService;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -32,11 +33,7 @@ new #[Title('Dashboard - Users')] class extends Component {
 
     public function mount(): void
     {
-        if (
-            ! auth()
-                ->user()
-                ?->isAdmin()
-        ) {
+        if (!auth()->user()?->isAdmin()) {
             abort(403);
         }
     }
@@ -50,12 +47,12 @@ new #[Title('Dashboard - Users')] class extends Component {
     public function users()
     {
         return User::query()
-            ->when($this->filterRole, fn ($q) => $q->where('role', $this->filterRole))
-            ->when($this->filterVerified === '1', fn ($q) => $q->whereNotNull('email_verified_at'))
-            ->when($this->filterVerified === '0', fn ($q) => $q->whereNull('email_verified_at'))
+            ->when($this->filterRole, fn($q) => $q->where('role', $this->filterRole))
+            ->when($this->filterVerified === '1', fn($q) => $q->whereNotNull('email_verified_at'))
+            ->when($this->filterVerified === '0', fn($q) => $q->whereNull('email_verified_at'))
             ->when(
                 $this->filterSearch,
-                fn ($q) => $q->where(function ($q) {
+                fn($q) => $q->where(function ($q) {
                     $q->where('name', 'like', "%{$this->filterSearch}%")->orWhere(
                         'email',
                         'like',
@@ -76,12 +73,7 @@ new #[Title('Dashboard - Users')] class extends Component {
 
     public function changeRole(User $user, string $role): void
     {
-        abort_unless(
-            auth()
-                ->user()
-                ?->isAdmin(),
-            403,
-        );
+        abort_unless(auth()->user()?->isAdmin(), 403);
 
         if ($user->id === auth()->id() && $role !== 'admin') {
             Flux::toast(__('You cannot remove your own admin role.'), variant: 'danger');
@@ -96,12 +88,7 @@ new #[Title('Dashboard - Users')] class extends Component {
 
     public function verifyEmail(User $user): void
     {
-        abort_unless(
-            auth()
-                ->user()
-                ?->isAdmin(),
-            403,
-        );
+        abort_unless(auth()->user()?->isAdmin(), 403);
 
         $user->email_verified_at = now();
         $user->save();
@@ -111,12 +98,7 @@ new #[Title('Dashboard - Users')] class extends Component {
 
     public function deleteUser(User $user): void
     {
-        abort_unless(
-            auth()
-                ->user()
-                ?->isAdmin(),
-            403,
-        );
+        abort_unless(auth()->user()?->isAdmin(), 403);
 
         if ($user->id === auth()->id()) {
             Flux::toast(__('You cannot delete your own account.'), variant: 'danger');
@@ -151,16 +133,22 @@ new #[Title('Dashboard - Users')] class extends Component {
     {
         $this->authorize('administer', Article::class);
         $this->currentOwnerUserId = $user->id;
-        $this->changeOwnerUserId = (string) $user->id;
-        $this->modal('change-owner')->show();
+        $this->dispatch(
+            'select-user',
+            heading: __('Reassign Articles'),
+            subheading: __('Select a new owner for articles from this user.'),
+            selectedUserId: $user->id,
+            callbackEvent: 'apply-new-owner',
+        );
     }
 
-    public function applyChangeOwner(): void
+    #[On('apply-new-owner')]
+    public function applyChangeOwner($id): void
     {
         $this->authorize('administer', Article::class);
 
         $currentOwner = User::findOrFail($this->currentOwnerUserId);
-        $this->articleService->reassignArticles($currentOwner, (int) $this->changeOwnerUserId);
+        $this->articleService->reassignArticles($currentOwner, (int) $id);
 
         $this->modal('change-owner')->close();
         $this->currentOwnerUserId = null;

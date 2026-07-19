@@ -86,17 +86,8 @@
             @endforeach
         </flux:table>
 
-        {{-- Single article change owner modal --}}
-        <x-dashboard.select-owner
-            :heading="__('Change owner')"
-            :subheading="__('Select a new owner for this article.')"
-            :users="$this->users"
-        />
-
-        {{-- Bulk change owner modal --}}
-        <x-dashboard.bulk-select-owner :users="$this->users" />
-
         <livewire:articles.details-modal />
         <livewire:articles.history-modal />
+        <livewire:dashboard.shared.select-user />
     </x-layouts::dashboard>
 </div>

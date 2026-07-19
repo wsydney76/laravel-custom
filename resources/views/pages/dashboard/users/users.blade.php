@@ -93,18 +93,11 @@
                         @endif
                     </flux:table.cell>
 
-                    {{-- Locale --}}
-                    <flux:table.cell>
-                        <flux:text size="sm">{{ $user->locale->label() }}</flux:text>
-                    </flux:table.cell>
-
                     {{-- Articles --}}
                     <flux:table.cell>
-                        <flux:badge
-                            :color="$user->articles_count > 0 ? 'blue' : 'zinc'"
-                            :href="$user->articles_count > 0 ? route('dashboard.articles', ['user' => $user->id]) : null"
-                        >
+                        <flux:badge :color="$user->articles_count > 0 ? 'blue' : 'zinc'">
                             {{ $user->articles_count }}
+                            {{ $user->articles_count == 1 ? __('Article') : __('Articles') }}
                         </flux:badge>
                     </flux:table.cell>
 
@@ -192,10 +185,6 @@
             @endforeach
         </flux:table>
 
-        <x-dashboard.select-owner
-            :heading="__('Reassign Articles')"
-            :subheading="__('Select a new owner for articles from this user.')"
-            :users="$this->users"
-        />
+        <livewire:dashboard.shared.select-user />
     </x-layouts::dashboard>
 </div>

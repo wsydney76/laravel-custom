@@ -5,6 +5,7 @@ use App\Models\Article;
 use App\Models\User;
 use App\Services\ArticleService;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -57,10 +58,7 @@ new #[Title('Dashboard - Articles')] class extends Component {
     public function updatedSelectAll(bool $value): void
     {
         $this->selectedArticles = $value
-            ? $this->articles
-                ->pluck('id')
-                ->map(fn ($id) => (string) $id)
-                ->toArray()
+            ? $this->articles->pluck('id')->map(fn($id) => (string) $id)->toArray()
             : [];
     }
 
@@ -86,9 +84,7 @@ new #[Title('Dashboard - Articles')] class extends Component {
     #[Computed]
     public function isAdmin(): bool
     {
-        return auth()
-            ->user()
-            ?->can('administer', Article::class) ?? false;
+        return auth()->user()?->can('administer', Article::class) ?? false;
     }
 
     #[Computed]
@@ -96,20 +92,20 @@ new #[Title('Dashboard - Articles')] class extends Component {
     {
         $user = auth()->user();
 
-        if (! $user) {
+        if (!$user) {
             abort(403);
         }
 
         return Article::query()
-            ->when(! $this->isAdmin, fn ($q) => $q->where('user_id', $user->id))
+            ->when(!$this->isAdmin, fn($q) => $q->where('user_id', $user->id))
             ->when(
                 $this->isAdmin && $this->filterUser,
-                fn ($q) => $q->where('user_id', $this->filterUser),
+                fn($q) => $q->where('user_id', $this->filterUser),
             )
-            ->when($this->filterState, fn ($q) => $q->where('state', $this->filterState))
+            ->when($this->filterState, fn($q) => $q->where('state', $this->filterState))
             ->when(
                 $this->filterSearch,
-                fn ($q) => $q->where('title', 'like', "%{$this->filterSearch}%"),
+                fn($q) => $q->where('title', 'like', "%{$this->filterSearch}%"),
             )
             ->orderByDesc('created_at')
             ->paginate(8);
@@ -135,26 +131,31 @@ new #[Title('Dashboard - Articles')] class extends Component {
     }
 
     public ?int $changeOwnerArticleId = null;
-    public string $changeOwnerUserId = '';
 
     public function openChangeOwner(Article $article): void
     {
         $this->authorize('administer', Article::class);
         $this->changeOwnerArticleId = $article->id;
-        $this->changeOwnerUserId = (string) $article->user_id;
-        $this->modal('change-owner')->show();
+
+        $this->dispatch(
+            'select-user',
+            heading: __('Change owner'),
+            subheading: __('Select a new owner for this article.'),
+            selectedUserId: $article->user_id,
+            callbackEvent: 'apply-new-owner',
+        );
     }
 
-    public function applyChangeOwner(): void
+    #[On('apply-new-owner')]
+    public function applyChangeOwner($id): void
     {
         $this->authorize('administer', Article::class);
 
         $article = Article::findOrFail($this->changeOwnerArticleId);
-        $this->articleService->changeOwner($article, (int) $this->changeOwnerUserId);
+        $this->articleService->changeOwner($article, $id);
 
         $this->modal('change-owner')->close();
         $this->changeOwnerArticleId = null;
-        $this->changeOwnerUserId = '';
 
         Flux::toast(__('Owner updated successfully'), variant: 'success');
     }
@@ -202,29 +203,31 @@ new #[Title('Dashboard - Articles')] class extends Component {
         );
     }
 
-    public string $bulkChangeOwnerUserId = '';
-
     public function openBulkChangeOwner(): void
     {
         $this->authorize('administer', Article::class);
-        $this->bulkChangeOwnerUserId = '';
-        $this->modal('bulk-change-owner')->show();
+
+        $this->dispatch(
+            'select-user',
+            heading: __('Change owner'),
+            subheading: __('Select a new owner for the selected articles.'),
+            callbackEvent: 'bulk-apply-new-owner',
+        );
     }
 
-    public function applyBulkChangeOwner(): void
+    #[On('bulk-apply-new-owner')]
+    public function applyBulkChangeOwner(int $id): void
     {
         $this->authorize('administer', Article::class);
 
         $articles = Article::whereIn('id', $this->selectedArticles)->get();
 
         foreach ($articles as $article) {
-            $this->articleService->changeOwner($article, (int) $this->bulkChangeOwnerUserId);
+            $this->articleService->changeOwner($article, $id);
         }
 
         $count = $articles->count();
 
-        $this->modal('bulk-change-owner')->close();
-        $this->bulkChangeOwnerUserId = '';
         $this->selectedArticles = [];
         $this->selectAll = false;
 
