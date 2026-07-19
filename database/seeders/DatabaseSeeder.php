@@ -19,12 +19,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'role' => 'admin',
             'password' => 'kirby-tutorial',
         ]);
-
-        User::factory(5)->create();
-
-        Article::factory(40)->create();
     }
 }

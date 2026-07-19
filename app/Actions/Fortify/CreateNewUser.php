@@ -39,9 +39,6 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-        $admins = User::where('role', 'admin')->get();
-        Notification::send($admins, new NewUserRegistered($user));
-
         return $user;
     }
 }

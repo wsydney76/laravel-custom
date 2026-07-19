@@ -5,23 +5,13 @@
 @if (Route::has('login'))
     @auth
         <flux:dropdown>
-            <flux:button variant="subtle" icon="user" aria-label="Preferred color scheme">
+            <flux:button variant="subtle" icon="user">
                 {{ auth()->user()->name }}
             </flux:button>
             <flux:menu>
                 <flux:menu.item :href="route('profile.edit')" icon="cog-8-tooth" wire:navigate>
                     {{ __('Settings') }}
                 </flux:menu.item>
-
-                @if (auth()->user()->isAdmin() || auth()->user()->articles()->exists())
-                    <flux:menu.item
-                        :href="route('dashboard.articles')"
-                        icon="shield-check"
-                        wire:navigate
-                    >
-                        {{ __('Admin Dashboard') }}
-                    </flux:menu.item>
-                @endif
 
                 <flux:menu.separator />
 
@@ -39,9 +29,6 @@
                 </form>
             </flux:menu>
         </flux:dropdown>
-        @if (auth()->user()->isAdmin())
-            <flux:badge color="emerald">Admin</flux:badge>
-        @endif
     @else
         <flux:navbar.item :href="route('login')" icon="arrow-right-end-on-rectangle" wire:navigate>
             {{ __('Log in') }}
