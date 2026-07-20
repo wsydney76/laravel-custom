@@ -12,14 +12,13 @@
         <title>{{ $title }} | {{ config('app.name') }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @fonts
         @fluxAppearance
     </head>
-    <body class="bg-sky-50 antialiased dark:bg-sky-950">
+    <body class="bg-zinc-50 antialiased dark:bg-zinc-950">
         <flux:header
             container
             sticky
-            class="border-b border-sky-300 bg-sky-100 dark:border-sky-700 dark:bg-sky-900"
+            class="border-b border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900"
         >
             <x-layouts.brand />
 
@@ -33,7 +32,7 @@
         <flux:sidebar
             sticky
             collapsible="mobile"
-            class="border-r border-sky-200 bg-sky-50 lg:hidden dark:border-sky-700 dark:bg-sky-900"
+            class="border-r border-zinc-200 bg-zinc-50 lg:hidden dark:border-zinc-700 dark:bg-zinc-900"
         >
             <flux:sidebar.header>
                 <x-layouts.brand />
