@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             'password' => 'kirby-tutorial',
         ]);
 
+        User::factory()->count(5)->create();
+
         Note::factory()->count(25)->create();
     }
 }

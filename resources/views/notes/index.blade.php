@@ -1,27 +1,29 @@
+@php
+    use App\Models\Note;
+@endphp
+
 <x-layouts::app title="Notes">
     <div class="space-y-6">
-        @auth
-            <div>
-                <flux:button size="sm" variant="primary" :href="route('notes.create')">
-                    Create note
-                </flux:button>
-            </div>
-        @endauth
-
-        <ul class="space-y-2">
+        <div class="space-y-2">
             @forelse ($notes as $note)
-                <li>
-                    <flux:link :href="route('notes.show', $note)">
-                        {{ $note->title }}
-                    </flux:link>
-                </li>
+                <x-notes.card :note="$note" />
             @empty
-                <li>No notes available.</li>
+                <p>No notes available.</p>
             @endforelse
-        </ul>
+        </div>
 
         <div>
             {{ $notes->links() }}
         </div>
     </div>
+
+    <x-slot name="titleactions">
+        @can('create', Note::class)
+            <div>
+                <flux:button size="sm" variant="primary" :href="route('notes.create')">
+                    Create note
+                </flux:button>
+            </div>
+        @endcan
+    </x-slot>
 </x-layouts::app>

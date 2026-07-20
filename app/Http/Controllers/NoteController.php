@@ -4,22 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
-use function abort_unless;
-use function dd;
 
 class NoteController extends Controller
 {
-    public const array RULES = [
-        'title' => 'required|min:5',
-        'body' => 'nullable',
-    ];
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $notes = Note::latest()->paginate(10);
+        $this->authorize('viewAny', Note::class);
+
+        $notes = Note::with('user')->latest()->paginate(4);
 
         return view('notes.index', compact('notes'));
     }
@@ -29,6 +24,8 @@ class NoteController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Note::class);
+
         return view('notes.create');
     }
 
@@ -37,11 +34,11 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        abort_unless(auth()->check(), 403);
+        $this->authorize('create', Note::class);
 
-        $data = $request->validate(self::RULES);
+        $data = $request->validate(Note::rules());
 
-        $note = Note::create($data);
+        $note = auth()->user()->notes()->create($data);
         return redirect()->route('notes.show', $note)->with('status', 'Note created successfully');
     }
 
@@ -50,6 +47,8 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
+        $this->authorize('view', $note);
+
         return view('notes.show', compact('note'));
     }
 
@@ -58,6 +57,8 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
+        $this->authorize('update', $note);
+
         return view('notes.edit', compact('note'));
     }
 
@@ -66,9 +67,9 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        abort_unless(auth()->check(), 403);
+        $this->authorize('update', $note);
 
-        $data = $request->validate(self::RULES);
+        $data = $request->validate(Note::rules());
 
         $note->update($data);
         return redirect()->route('notes.show', $note)->with('status', 'Note updated successfully');
@@ -79,7 +80,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        abort_unless(auth()->check(), 403);
+        $this->authorize('delete', $note);
 
         $note->delete();
         return redirect()->route('notes.index')->with('status', 'Note deleted successfully');

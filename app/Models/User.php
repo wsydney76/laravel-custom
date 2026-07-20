@@ -53,4 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ? Str::substr($initials, 0, 1) . Str::substr($initials, -1)
             : $initials;
     }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
 }
