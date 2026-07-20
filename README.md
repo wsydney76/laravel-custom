@@ -6,6 +6,11 @@ You can use this project to test out new ideas, learn Laravel, prototype applica
 
 * Uses Livewire, Flux, Fortify, Vite, Tailwind, SQLite.
 * Authentication and account management are from Laravel's Livewire starter kit.
+* A 'Notes' feature is included to demonstrate a basic CRUD application with Livewire powered search.
+
+## Versions
+
+See extended version of this project with more features and a more complex structure at [Laravel Playground](https://github.com/wsydney76/laravel-playground)
 
 ## Installation
 
