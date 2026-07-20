@@ -18,8 +18,11 @@
             </flux:textarea>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 flex gap-2">
             <flux:button size="sm" variant="primary" type="submit">Create Note</flux:button>
+            <flux:button size="sm" variant="ghost" as="a" href="{{ route('notes.index') }}">
+                Cancel
+            </flux:button>
         </div>
     </form>
 </x-layouts::app>
