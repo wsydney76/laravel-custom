@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::get('notes/my', [NoteController::class, 'my'])->name('notes.my');
 });
 
+Route::livewire('notes/search', 'notes.search')->name('notes.search');
 Route::get('notes', [NoteController::class, 'index'])->name('notes.index');
 Route::get('notes/{note}', [NoteController::class, 'show'])->name('notes.show');
 

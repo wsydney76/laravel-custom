@@ -6,12 +6,15 @@
     <x-notes.grid :$notes />
 
     <x-slot name="title_actions">
-        @can('create', Note::class)
-            <div>
-                <flux:button size="sm" variant="primary" :href="route('notes.create')">
-                    Create note
-                </flux:button>
-            </div>
-        @endcan
+        <div class="flex gap-2">
+            <flux:button as="a" size="sm" :href="route('notes.search')">Search notes</flux:button>
+            @can('create', Note::class)
+                <div>
+                    <flux:button size="sm" variant="primary" :href="route('notes.create')">
+                        Create note
+                    </flux:button>
+                </div>
+            @endcan
+        </div>
     </x-slot>
 </x-layouts::app>
