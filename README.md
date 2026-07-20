@@ -4,7 +4,7 @@ This is a basic Laravel Custom Starter project that allows you to experiment wit
 
 You can use this project to test out new ideas, learn Laravel, prototype applications, or get familiar developing with AI support.
 
-* Uses Livewire, Flux, Fortify, Vite, Tailwind.
+* Uses Livewire, Flux, Fortify, Vite, Tailwind, SQLite.
 * Authentication and account management are from Laravel's Livewire starter kit.
 
 ## Installation

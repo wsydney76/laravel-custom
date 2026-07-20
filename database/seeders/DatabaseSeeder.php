@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Article;
+use App\Models\Note;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => 'kirby-tutorial',
         ]);
+
+        Note::factory()->count(25)->create();
     }
 }

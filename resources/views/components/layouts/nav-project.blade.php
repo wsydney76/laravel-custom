@@ -1,1 +1,1 @@
-<flux:navbar.item href="#">Placeholder</flux:navbar.item>
+<flux:navbar.item href="{{ route('notes.index') }}">Notes</flux:navbar.item>

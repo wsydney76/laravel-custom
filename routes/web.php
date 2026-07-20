@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NoteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'show'])->name('home');
+
+Route::resource('notes', NoteController::class)->middleware('auth');
 
 Route::get('test/{template}', function (string $template) {
     return view("test.{$template}", ['template' => $template]);
