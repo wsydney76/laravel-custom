@@ -9,6 +9,11 @@ use function dd;
 
 class NoteController extends Controller
 {
+    public const array RULES = [
+        'title' => 'required|min:5',
+        'body' => 'nullable',
+    ];
+
     /**
      * Display a listing of the resource.
      */
@@ -34,10 +39,7 @@ class NoteController extends Controller
     {
         abort_unless(auth()->check(), 403);
 
-        $data = $request->validate([
-            'title' => 'required',
-            'body' => 'nullable',
-        ]);
+        $data = $request->validate(self::RULES);
 
         $note = Note::create($data);
         return redirect()->route('notes.show', $note)->with('status', 'Note created successfully');
@@ -66,10 +68,7 @@ class NoteController extends Controller
     {
         abort_unless(auth()->check(), 403);
 
-        $data = $request->validate([
-            'title' => 'required',
-            'body' => 'nullable',
-        ]);
+        $data = $request->validate(self::RULES);
 
         $note->update($data);
         return redirect()->route('notes.show', $note)->with('status', 'Note updated successfully');

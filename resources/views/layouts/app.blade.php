@@ -15,11 +15,11 @@
         @fluxAppearance
     </head>
     <body class="bg-zinc-50 antialiased dark:bg-zinc-950">
-        <flux:header
-            container
-            sticky
-            class="border-b border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900"
-        >
+        <a href="#content" class="sr-only focus:not-sr-only">
+            {{ __('Skip to content') }}
+        </a>
+
+        <flux:header container sticky>
             <x-layouts.brand />
 
             <x-layouts.nav class="w-full max-lg:hidden" />
@@ -41,7 +41,7 @@
             <x-layouts.sidebar-nav class="flex flex-col" />
         </flux:sidebar>
 
-        <flux:main class="lg:mx-auto lg:w-5xl">
+        <flux:main id="content" class="lg:mx-auto lg:w-4xl" role="main">
             <x-layouts.status-callout />
 
             <div class="flex items-center justify-between">

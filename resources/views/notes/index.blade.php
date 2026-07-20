@@ -9,13 +9,15 @@
         @endauth
 
         <ul class="space-y-2">
-            @foreach ($notes as $note)
+            @forelse ($notes as $note)
                 <li>
                     <flux:link :href="route('notes.show', $note)">
                         {{ $note->title }}
                     </flux:link>
                 </li>
-            @endforeach
+            @empty
+                <li>No notes available.</li>
+            @endforelse
         </ul>
 
         <div>

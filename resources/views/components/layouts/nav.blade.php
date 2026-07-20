@@ -1,10 +1,4 @@
-<flux:navbar {{ $attributes }}>
-    {{--
-        <flux:navbar.item icon="home" href="{{ route('home') }}" wire:navigate>
-        Home
-        </flux:navbar.item>
-    --}}
-
+<flux:navbar {{ $attributes }} role="navigation">
     <x-layouts.nav-project />
 
     <flux:spacer />
