@@ -3,19 +3,7 @@
 @endphp
 
 <x-layouts::app title="Notes">
-    <div class="space-y-6">
-        <div class="space-y-2">
-            @forelse ($notes as $note)
-                <x-notes.card :note="$note" />
-            @empty
-                <p>No notes available.</p>
-            @endforelse
-        </div>
-
-        <div>
-            {{ $notes->links() }}
-        </div>
-    </div>
+    <x-notes.grid :$notes />
 
     <x-slot name="titleactions">
         @can('create', Note::class)

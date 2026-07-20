@@ -14,7 +14,7 @@ class NoteController extends Controller
     {
         $this->authorize('viewAny', Note::class);
 
-        $notes = Note::with('user')->latest()->paginate(4);
+        $notes = Note::with('user')->latest()->paginate(8);
 
         return view('notes.index', compact('notes'));
     }
