@@ -40,7 +40,7 @@ class NoteController extends Controller
         $data = $request->validate(Note::rules());
 
         $note = auth()->user()->notes()->create($data);
-        return redirect()->route('notes.show', $note)->with('status', 'Note created successfully');
+        return redirect()->to($note->url)->with('status', 'Note created successfully');
     }
 
     /**
@@ -73,7 +73,7 @@ class NoteController extends Controller
         $data = $request->validate(Note::rules());
 
         $note->update($data);
-        return redirect()->route('notes.show', $note)->with('status', 'Note updated successfully');
+        return redirect()->to($note->url)->with('status', 'Note updated successfully');
     }
 
     /**

@@ -22,7 +22,7 @@
 
         <div class="mt-4 flex gap-2">
             <flux:button size="sm" variant="primary" type="submit">Update Note</flux:button>
-            <flux:button size="sm" variant="ghost" as="a" href="{{ route('notes.show', $note) }}">
+            <flux:button size="sm" variant="ghost" as="a" href="{{ $note->url }}">
                 Cancel
             </flux:button>
         </div>

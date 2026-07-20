@@ -32,4 +32,19 @@ class Note extends Model
             'body' => ['required', 'string', 'max:4000'],
         ];
     }
+
+    public function getUrlAttribute()
+    {
+        return route('notes.show', $this);
+    }
+
+    public function getEditUrlAttribute()
+    {
+        return route('notes.edit', $this);
+    }
+
+    public function getCreatedAtFormattedAttribute()
+    {
+        return $this->created_at->setTimezone('Europe/Berlin')->isoFormat('LLL');
+    }
 }

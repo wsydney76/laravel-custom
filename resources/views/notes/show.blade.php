@@ -10,9 +10,7 @@
     @can('update', $note)
         <x-slot name="title_actions">
             <div class="flex gap-2">
-                <flux:button variant="primary" size="sm" :href="route('notes.edit', $note)">
-                    Edit
-                </flux:button>
+                <flux:button variant="primary" size="sm" :href="$note->edit_url">Edit</flux:button>
 
                 @can('delete', $note)
                     <form

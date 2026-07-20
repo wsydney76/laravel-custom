@@ -4,13 +4,11 @@
 
 <flux:card {{ $attributes->class('space-y-2') }}>
     <div class="flex items-center justify-between">
-        <flux:link :href="route('notes.show', $note)">
+        <flux:link :href="$note->url">
             {{ $note->title }}
         </flux:link>
         @can('update', $note)
-            <flux:button size="xs" variant="filled" :href="route('notes.edit', $note)">
-                Edit
-            </flux:button>
+            <flux:button size="xs" variant="filled" :href="$note->edit_url">Edit</flux:button>
         @endcan
     </div>
 

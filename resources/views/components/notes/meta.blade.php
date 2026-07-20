@@ -5,5 +5,5 @@
 <flux:text size="sm" {{ $attributes }}>
     {{ $note->user?->name ?? 'Unknown user' }}
     &middot;
-    {{ $note->created_at->setTimezone('Europe/Berlin')->format('d.m.Y H:i') }}
+    {{ $note->created_at_formatted }}
 </flux:text>
