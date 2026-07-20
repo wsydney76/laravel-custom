@@ -29,7 +29,7 @@ class Note extends Model
     {
         return [
             'title' => ['required', 'string', 'min:5', 'max:255'],
-            'body' => ['nullable', 'string'],
+            'body' => ['required', 'string', 'max:4000'],
         ];
     }
 }

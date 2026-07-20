@@ -15,8 +15,9 @@ class NoteController extends Controller
         $this->authorize('viewAny', Note::class);
 
         $notes = Note::with('user')->latest()->paginate(8);
+        $title = 'Notes';
 
-        return view('notes.index', compact('notes'));
+        return view('notes.index', compact('notes', 'title'));
     }
 
     /**
@@ -84,5 +85,14 @@ class NoteController extends Controller
 
         $note->delete();
         return redirect()->route('notes.index')->with('status', 'Note deleted successfully');
+    }
+
+    public function my()
+    {
+        $this->authorize('viewAny', Note::class);
+
+        $notes = auth()->user()->notes()->latest()->paginate(8);
+        $title = 'My Notes';
+        return view('notes.index', compact('notes', 'title'));
     }
 }

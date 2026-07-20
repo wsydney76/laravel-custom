@@ -8,7 +8,7 @@
     <x-notes.meta class="mt-6" :note="$note" />
 
     @can('update', $note)
-        <x-slot name="titleactions">
+        <x-slot name="title_actions">
             <div class="flex gap-2">
                 <flux:button variant="primary" size="sm" :href="route('notes.edit', $note)">
                     Edit

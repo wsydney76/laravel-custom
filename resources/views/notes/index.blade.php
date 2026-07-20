@@ -2,10 +2,10 @@
     use App\Models\Note;
 @endphp
 
-<x-layouts::app title="Notes">
+<x-layouts::app :$title>
     <x-notes.grid :$notes />
 
-    <x-slot name="titleactions">
+    <x-slot name="title_actions">
         @can('create', Note::class)
             <div>
                 <flux:button size="sm" variant="primary" :href="route('notes.create')">

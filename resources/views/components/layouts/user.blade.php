@@ -15,6 +15,16 @@
 
                 <flux:menu.separator />
 
+                <flux:menu.item
+                    :href="route('notes.my')"
+                    icon="chat-bubble-left-ellipsis"
+                    wire:navigate
+                >
+                    {{ __('My Notes') }}
+                </flux:menu.item>
+
+                <flux:menu.separator />
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <flux:menu.item

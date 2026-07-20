@@ -17,6 +17,7 @@
             <flux:textarea label="Body" name="body" id="body" rows="10">
                 {{ old('body', $note->body) }}
             </flux:textarea>
+            <flux:error name="body" />
         </div>
 
         <div class="mt-4 flex gap-2">

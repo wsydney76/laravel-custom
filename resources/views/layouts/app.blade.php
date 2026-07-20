@@ -1,7 +1,8 @@
 @props([
     'title' => config('app.name'),
-    'titleactions' => null,
+    'title_actions' => null,
 ])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scrollbar-gutter-stable">
     <head>
@@ -12,6 +13,7 @@
         <title>{{ $title }} | {{ config('app.name') }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
         @fluxAppearance
     </head>
     <body class="bg-zinc-50 antialiased dark:bg-zinc-950">
@@ -46,9 +48,9 @@
 
             <div class="flex items-center justify-between">
                 <flux:heading size="xl" class="my-6">{{ $title }}</flux:heading>
-                @if ($titleactions && $titleactions->hasActualContent())
+                @if ($title_actions && $title_actions->hasActualContent())
                     <div>
-                        {{ $titleactions }}
+                        {{ $title_actions }}
                     </div>
                 @endif
             </div>
@@ -59,6 +61,7 @@
         <flux:toast.group expanded position="top center">
             <flux:toast class="w-auto min-w-0 sm:min-w-96" />
         </flux:toast.group>
+
         @fluxScripts
     </body>
 </html>

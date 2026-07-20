@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::get('notes/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
     Route::put('notes/{note}', [NoteController::class, 'update'])->name('notes.update');
     Route::delete('notes/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+    Route::get('notes/my', [NoteController::class, 'my'])->name('notes.my');
 });
 
 Route::get('notes', [NoteController::class, 'index'])->name('notes.index');
