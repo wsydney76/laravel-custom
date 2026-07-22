@@ -1,3 +1,7 @@
+@php
+    use App\Models\Note;
+    /** @var Note $note */
+@endphp
 <x-layouts::app :title="$note->title">
     @if ($note->body)
         <p>{!! nl2br(e($note->body)) !!}</p>

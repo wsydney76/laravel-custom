@@ -1,5 +1,10 @@
+@php
+    use App\Models\Note;
+    /** @var Note $note */
+@endphp
+
 @props([
-    /**@var\mixed*/'note',
+    'note',
 ])
 
 <flux:card {{ $attributes->class('space-y-2') }}>

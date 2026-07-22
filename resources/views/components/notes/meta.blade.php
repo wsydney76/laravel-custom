@@ -1,7 +1,11 @@
-@props([
-    /**@var\App\Models\Note*/'note',
-])
+@php
+    use App\Models\Note;
+    /** @var Note $note */
+@endphp
 
+@props([
+    'note',
+])
 <flux:text size="sm" {{ $attributes }}>
     {{ $note->user?->name ?? 'Unknown user' }}
     &middot;

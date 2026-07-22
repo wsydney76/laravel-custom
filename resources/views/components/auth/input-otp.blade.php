@@ -1,3 +1,8 @@
+@php
+    /** @var int $digits */
+    /** @var string $name */
+@endphp
+
 @props([
     'digits' => 6,
     'name' => 'code',

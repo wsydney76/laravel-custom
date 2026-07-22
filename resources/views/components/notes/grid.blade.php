@@ -1,5 +1,10 @@
+@php
+    use App\Models\Note;
+    use Illuminate\Pagination\LengthAwarePaginator;
+    /** @var LengthAwarePaginator $notes */
+@endphp
+
 @props([
-    /** @var \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] */
     'notes',
 ])
 

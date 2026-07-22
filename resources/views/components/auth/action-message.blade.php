@@ -1,3 +1,7 @@
+@php
+    /** @var string $on */
+@endphp
+
 @props([
     'on',
 ])

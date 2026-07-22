@@ -1,5 +1,8 @@
 @php
     use App\Models\Note;
+    use Illuminate\Pagination\LengthAwarePaginator;
+    /** @var LengthAwarePaginator $notes */
+    /** @var string $title */
 @endphp
 
 <x-layouts::app :$title>
