@@ -1,3 +1,7 @@
+@php
+    use App\Models\Note;
+    /** @var Note $note */
+@endphp
 <x-layouts::app title="Edit Note">
     <form method="POST" action="{{ route('notes.update', $note) }}" class="space-y-4">
         @csrf

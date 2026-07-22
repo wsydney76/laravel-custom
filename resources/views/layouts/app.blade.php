@@ -1,6 +1,7 @@
 @props([
     'title' => config('app.name'),
     'title_actions' => null,
+    'description' => null,
 ])
 
 <!DOCTYPE html>
@@ -11,6 +12,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
 
         <title>{{ $title }} | {{ config('app.name') }}</title>
+
+        @if ($description)
+            <meta name="description" content="{{ $description }}" />
+        @endif
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 

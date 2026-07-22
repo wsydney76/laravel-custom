@@ -1,3 +1,8 @@
+@php
+    /** @var string $title */
+    /** @var string $description */
+@endphp
+
 @props([
     'title',
     'description',

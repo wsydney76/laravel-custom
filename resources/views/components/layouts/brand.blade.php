@@ -2,7 +2,6 @@
     :href="route('home')"
     :name="config('app.name')"
     {{ $attributes }}
-    role="banner"
 >
     <x-slot name="logo">
         <flux:icon icon="bolt" />

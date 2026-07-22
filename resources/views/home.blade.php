@@ -1,3 +1,4 @@
+{{-- @var int $notesCount --}}
 <x-layouts::app>
     @if ($notesCount)
         <flux:button as="a" size="sm" variant="primary" href="{{ route('notes.index') }}">
