@@ -7,19 +7,24 @@
     'note',
 ])
 
-<flux:card {{ $attributes->class('space-y-2') }}>
-    <div class="flex items-center justify-between">
+<flux:card {{
+    $attributes->class([
+        'space-y-2',
+    ])
+}}>
+    <div class="flex items-center justify-between gap-1">
         <flux:link :href="$note->url">
             {{ $note->title }}
         </flux:link>
+
         @can('update', $note)
             <flux:button size="xs" variant="filled" :href="$note->edit_url">Edit</flux:button>
         @endcan
     </div>
 
-    <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+    <flux:text>
         {{ Str::limit($note->body, 100, preserveWords: true) }}
-    </p>
+    </flux:text>
 
-    <x-notes.meta :note="$note" />
+    <x-notes.meta :$note />
 </flux:card>

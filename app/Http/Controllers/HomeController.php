@@ -8,7 +8,12 @@ class HomeController extends Controller
 {
     public function show()
     {
+        $title = config('app.name');
+        $teaser = fake()->sentence(12);
         $notesCount = Note::count();
-        return view('home', compact('notesCount'));
+
+        $featuredNote = Note::inRandomOrder()->first();
+
+        return view('home', compact(['title', 'teaser', 'notesCount', 'featuredNote']));
     }
 }

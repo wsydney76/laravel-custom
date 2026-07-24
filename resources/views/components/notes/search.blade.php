@@ -12,13 +12,8 @@ new #[Title('Search Notes')] class extends Component {
     use WithPagination;
 
     #[Url]
-    #[Validate('not_regex:/\*/', message: '*" wildcard is not supported.')]
+    #[Validate('not_regex:/\*/', message: '* wildcard is not supported.')]
     public string $search = '';
-
-    public function mount()
-    {
-        $this->validate();
-    }
 
     #[Computed]
     public function notes()
@@ -29,6 +24,11 @@ new #[Title('Search Notes')] class extends Component {
             ->orWhere('body', 'like', "%{$this->search}%")
             ->orWhereHas('user', fn ($q) => $q->where('name', 'like', "%{$this->search}%"))
             ->paginate(8);
+    }
+
+    public function mount()
+    {
+        $this->validate();
     }
 
     public function updateSearch($value)

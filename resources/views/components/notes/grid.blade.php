@@ -8,9 +8,13 @@
     'notes',
 ])
 
-<div {{ $attributes->class(['grid grid-cols-1 gap-4 lg:grid-cols-2']) }}>
+<div {{
+    $attributes->class([
+        'grid grid-cols-1 gap-4 lg:grid-cols-2',
+    ])
+}}>
     @forelse ($notes as $note)
-        <x-notes.card :note="$note" />
+        <x-notes.card wire:key="note-{{ $note->id }}" :note="$note" />
     @empty
         <p>No notes available.</p>
     @endforelse

@@ -5,12 +5,12 @@
 
 <x-layouts::app :title="$note->title" :description="$note->description">
     @if ($note->body)
-        <p>{!! nl2br(e($note->body)) !!}</p>
+        <p><x-nl2br :text="$note->body" /></p>
     @else
         <flux:text>No body content provided.</flux:text>
     @endif
 
-    <x-notes.meta class="mt-6" :note="$note" />
+    <x-notes.meta class="mt-6" :$note />
 
     @can('update', $note)
         <x-slot name="title_actions">
