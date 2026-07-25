@@ -15,9 +15,13 @@ class HomeController extends Controller
         $teaser = Inspiring::quotes()->random();
         $notesCount = Note::count();
 
-        $featuredNoteId = Cache::remember('featured_note_id', now()->tomorrow()->startOfDay(), function () {
-            return Note::inRandomOrder()->value('id');
-        });
+        $featuredNoteId = Cache::remember(
+            'featured_note_id',
+            now()->tomorrow()->startOfDay(),
+            function () {
+                return Note::inRandomOrder()->value('id');
+            },
+        );
 
         $featuredNote = $featuredNoteId ? Note::find($featuredNoteId) : null;
 
@@ -25,6 +29,6 @@ class HomeController extends Controller
             $featuredNote = null;
         }
 
-        return view('home', compact(['title', 'teaser', 'notesCount', 'featuredNote']));
+        return view('home.show', compact(['title', 'teaser', 'notesCount', 'featuredNote']));
     }
 }
