@@ -12,7 +12,6 @@
     @if ($featuredNote)
         <flux:card class="mt-8 space-y-4">
             <flux:heading size="lg">Today's Featured Note:</flux:heading>
-
             <flux:heading size="lg">{{ $featuredNote->title }}</flux:heading>
 
             @if ($featuredNote->body)
