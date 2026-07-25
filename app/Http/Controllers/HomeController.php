@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 
 class HomeController extends Controller
 {
@@ -19,6 +20,10 @@ class HomeController extends Controller
         });
 
         $featuredNote = $featuredNoteId ? Note::find($featuredNoteId) : null;
+
+        if ($featuredNote && !Gate::check('view', $featuredNote)) {
+            $featuredNote = null;
+        }
 
         return view('home', compact(['title', 'teaser', 'notesCount', 'featuredNote']));
     }
