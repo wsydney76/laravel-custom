@@ -62,15 +62,15 @@ it('refreshes a featured note after deletion', function () {
     $note = Note::factory()->create(['title' => 'The first note']);
 
     $response = $this->get(route('home'));
-    $response->assertViewHas('featuredNote', function ($viewNote) use ($note) {
-        return $viewNote instanceof Note && $viewNote->title === $note->title;
+    $response->assertViewHas('featuredNote', function ($viewNote) {
+        return $viewNote instanceof Note && $viewNote->title === 'The first note';
     });
 
     $note->delete();
-    $newNote = Note::factory()->create(['title' => 'The second note']);
+    Note::factory()->create(['title' => 'The second note']);
 
     $response = $this->get(route('home'));
-    $response->assertViewHas('featuredNote', function ($viewNote) use ($newNote) {
-        return $viewNote instanceof Note && $viewNote->title === $newNote->title;
+    $response->assertViewHas('featuredNote', function ($viewNote) {
+        return $viewNote instanceof Note && $viewNote->title === 'The second note';
     });
 });
