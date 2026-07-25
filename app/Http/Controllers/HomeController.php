@@ -21,20 +21,19 @@ class HomeController extends Controller
         // no double-checking needed.
         if ($notesCount) {
             // Cache a note id for the current day
-            $featuredNoteId = Cache::remember(
-                'featured_note_id',
-                now()->tomorrow()->startOfDay(),
-                function () {
-                    return Note::inRandomOrder()->value('id');
-                },
-            );
+            $cacheKey = 'featured_note_id';
+            $ttl = now()->tomorrow()->startOfDay();
+
+            $featuredNoteId = Cache::remember($cacheKey, $ttl, function () {
+                return Note::inRandomOrder()->value('id');
+            });
 
             $featuredNote = Note::find($featuredNoteId);
 
             // Featured note obviously deleted, replace with a new one
             if ($featuredNoteId && !$featuredNote) {
                 $featuredNote = Note::inRandomOrder()->first();
-                Cache::put('featured_note_id', $featuredNote->id, now()->tomorrow()->startOfDay());
+                Cache::put($cacheKey, $featuredNote->id, $ttl);
             }
 
             // Don't show note if user is not permitted to view
