@@ -15,7 +15,7 @@ class HomeController extends Controller
         $teaser = Inspiring::quotes()->random();
         $notesCount = Note::count();
 
-        $featuredNoteId = Cache::remember('featured_note_id', now()->addDay(), function () {
+        $featuredNoteId = Cache::remember('featured_note_id', now()->tomorrow()->startOfDay(), function () {
             return Note::inRandomOrder()->value('id');
         });
 
