@@ -60,7 +60,9 @@
                 @endif
             </div>
 
-            {{ $slot }}
+            <div {{ $attributes }}>
+                {{ $slot }}
+            </div>
         </flux:main>
 
         <flux:toast.group expanded position="top center">
