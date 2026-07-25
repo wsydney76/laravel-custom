@@ -18,11 +18,14 @@
                 {{ __('My Notes') }}
             </flux:menu.item>
 
-            <flux:menu.separator />
+            {{-- This route does not exist in tests --}}
+            @if (Route::has('profile.edit'))
+                <flux:menu.separator />
 
-            <flux:menu.item :href="route('profile.edit')" icon="cog-8-tooth" wire:navigate>
-                {{ __('Settings') }}
-            </flux:menu.item>
+                <flux:menu.item :href="route('profile.edit')" icon="cog-8-tooth" wire:navigate>
+                    {{ __('Settings') }}
+                </flux:menu.item>
+            @endif
 
             <flux:menu.separator />
 
