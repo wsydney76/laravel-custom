@@ -26,7 +26,7 @@
     <div class="mt-8">
         @if ($notesCount)
             <flux:button as="a" size="sm" variant="primary" href="{{ route('notes.index') }}">
-                View all {{ $notesCount }} notes
+                View {{ $notesCount }} {{ Str::plural('note', $notesCount) }}
             </flux:button>
         @else
             <p>No notes available.</p>
