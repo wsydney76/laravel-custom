@@ -19,33 +19,20 @@ class HomeController extends Controller
         return view('home.show', compact(['title', 'teaser', 'notesCount', 'featuredNote']));
     }
 
-    /**
-     * Get a random note for the current calendar day
-     *
-     * @return Note|null
-     */
+    /** Get a random note for the current calendar day */
     protected function getFeaturedNote(): ?Note
     {
-        // Cache a note id for the current day
-        $cacheKey = 'featured_note_id';
         $ttl = now()->tomorrow()->startOfDay();
 
-        $featuredNoteId = Cache::remember($cacheKey, $ttl, function () {
-            return Note::inRandomOrder()->value('id');
-        });
+        $noteId = Cache::remember('featured_note_id', $ttl, fn() => Note::getFeaturedNote()?->id);
+        $note = $noteId ? Note::find($noteId) : null;
 
-        $featuredNote = Note::find($featuredNoteId);
-
-        // Featured note obviously deleted, replace with a new one
-        if ($featuredNoteId && !$featuredNote) {
-            $featuredNote = Note::inRandomOrder()->first();
-            Cache::put($cacheKey, $featuredNote->id, $ttl);
+        // If the cached note was deleted, pick a new one
+        if ($noteId && !$note) {
+            $note = Note::getFeaturedNote();
+            Cache::put('featured_note_id', $note?->id, $ttl);
         }
 
-        // Don't show note if user is not permitted to view
-        if (!Gate::check('view', $featuredNote)) {
-            $featuredNote = null;
-        }
-        return $featuredNote;
+        return $note && Gate::check('view', $note) ? $note : null;
     }
 }

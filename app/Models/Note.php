@@ -56,9 +56,14 @@ class Note extends Model
     public function getDescriptionAttribute(): string
     {
         $excerpt = Str::limit($this->body, 120, preserveWords: true);
-        $author  = $this->user?->name ?? 'Unknown';
-        $date    = $this->created_at?->setTimezone('Europe/Berlin')->isoFormat('LL') ?? '';
+        $author = $this->user?->name ?? 'Unknown';
+        $date = $this->created_at?->setTimezone('Europe/Berlin')->isoFormat('LL') ?? '';
 
         return "{$excerpt} — by {$author}, {$date}";
+    }
+
+    public static function getFeaturedNote(): ?self
+    {
+        return static::inRandomOrder()->first();
     }
 }
